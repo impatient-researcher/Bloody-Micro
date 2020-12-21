@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX: 
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{tufte-handout}
+
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{Pure strategies in MNE must survive IEDS}
+\author{Bloody Micro! by Impatient Researcher}
+\date{20 December 2020}  % if the \date{} command is left out, the current date will be used
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+%\printclassoptions
+
+\section{Question}\label{sec:question}
+
+Formally show that in a Mixed Strategy Nash Equilibrium (MNE), pure strategies that would be played with a positive probability must survive Iterated Elimination of Dominated Strategies (IEDS).
+
+\section{Answer}\label{sec:answer}
+
+Suppose not\footnote{That is we have a MNE on hand, and there exists a pure strategy that gets played with positive probability but somehow it gets eliminated in the process.}. Consider a 2-person case. 
+
+\begin{enumerate}
+    
+    \item Denote the Mixed Strategy Nash Equilibrium by $p^* = (p^*_1, p^*_2)$.
+    
+    \item There are $K$ strategies one can take, denote the strategy sets by $S_i = (s_{i1}, \dots, s_{iK}), \forall i \in \{1,2\}$
+    
+    \item WLOG, assume $s_{11}$\footnote{This reads the first strategy of the first player} be the first pure strategy which is:
+        \begin{enumerate}
+            \item being played with positive probability in a MNE; and
+            \item get eliminated!
+        \end{enumerate}
+        This also implies that there must exist another strategy, $s_{1j}$ that:
+        \begin{enumerate}
+            \item has not yet been eliminated; and
+            \item $u_1(s_{11}, s_{2k}) < u_1(s_{1j}, s_{2k}), \forall s_{2k} \in S_2$\footnote{'Cause that's how you get to eliminate $s_{11}$ in the first place!}
+        \end{enumerate}
+   
+    \item But if $s_{11}$ is worse than some $s_{1j}$ regardless of what strategy player 2 plays, then $s_{11}$ is still worse than $s_{1j}$ when player 2 is \textit{randomising} over his/her strategy set $S_2$\footnote{Because by \textit{randomising}, we mean that player 2 is playing a convex combination of strategies $S_2 = (s_{21}, \dots, s_{2K})$}: $$u_1(s_{11}, p^*_2) < u_1(s_{1j}, p^*_2)$$
+   
+    \item Then we can generate a new mixed strategy for player 1 as follows:
+    \begin{equation*}
+        p^{**}_1 =
+        \begin{cases}
+            p^{**}_{11} = 0 & \text{Cut the prob. of playing } s_{11}   \text{ to } 0\\
+            p^{**}_{1j} = p^{*}_{11} + p^{*}_{1j} & \text{Play the better } s_{1j} \text{ more often!}\\
+            p^{**}_{1k} = p^{*}_{1k} & \forall k \neq {1, j} 
+        \end{cases}       
+    \end{equation*}
+    
+    \item By construction, $$u_1(p^{**}_{1}, p^{*}_{2}) > u_1(p^{*}_{1}, p^{*}_{2})$$ 
+    But clearly, it contradicts the claim that $p^* = (p^*_1, p^*_2)$ is a MNE! $\square$
+\end{enumerate}
+
+%\bibliography{sample-handout}
+%\bibliographystyle{plainnat}
+
+\end{document}
