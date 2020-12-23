@@ -1,0 +1,130 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX: 
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{tufte-handout}
+
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{Expected payment in standard auctions}
+\author{Bloody Micro! by Impatient Researcher}
+\date{23 December 2020}  % if the \date{} command is left out, the current date will be used
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+%\printclassoptions
+
+\section{Question}\label{sec:question}
+
+Derive the expected payment in the following two standard auctions\footnote{Standard auctions are simply auctions where the highest bidder gets the item.} under the assumption of Independent Private Valuation (IPV):
+\begin{enumerate}
+    \item First price auction
+    \item Second price auction
+\end{enumerate}
+
+\section{Answer}\label{sec:answer}
+
+Expected payment is the product of two things:
+\begin{enumerate}
+    \item How much I have to pay in the event I win
+    \item The probability I win
+\end{enumerate}
+
+The details of the auction design is secondary.
+
+\subsection{First price auction}
+
+\begin{enumerate}
+    
+    \item Derive the optimal bidding strategy yourself. I will directly state the answer here\footnote{$Y_1$ is the second highest order statistic which is essentially the second highest valuation while acknowledging that it is a random variable. $r$ is the reserve price, if any.}: $$\beta^I(\theta) = E\left[ \max \left(Y_1, r \right) | Y_1 \leq \theta \right]$$
+
+    \item The probability of winning is simply: $[F(\theta)]^{(N-1)}$ where $F$ is the CDF of everyone's valuation. To ease notation, the literature often denote $G(.) \equiv [F(.)]^{(N-1)}$.
+    
+    \item So we have $M^I(\theta) = G(\theta) \times E\left[ \max \left(Y_1, r \right) | Y_1 \leq \theta \right]$
+    
+    \item Notice $E\left[ \max \left(Y_1, r \right) | Y_1 \leq \theta \right] = \frac{1}{G(\theta)}\int_0^\theta max(y, r) g(y) dy$, which can be simplified much further when breaking the limits of integration into two intervals and evaluate $\max(.)$ in each of them\footnote{$\frac{1}{G(\theta)} \left[ \int_0^r max(y, r) g(y) dy + \int_r^\theta max(y, r) g(y) dy \right]$}. Ultimately, you will get:
+    
+    $$E\left[ \max \left(Y_1, r \right) | Y_1 \leq \theta \right] = \frac{1}{G(\theta)}\left[ rG(r) + \int_r^\theta y g(y) dy \right]$$
+    
+    \item The expected payment is therefore\footnote{The second equality comes from Integration By Parts.}:
+    $$M^I(\theta) = G(\theta) \times \frac{1}{G(\theta)}\left[ rG(r) + \int_r^\theta y g(y) dy \right] = rG(r) + \int_r^\theta y g(y) dy$$
+    
+\end{enumerate}
+\newpage
+
+
+\subsection{Second price auction}
+\begin{enumerate}
+    \item Argue that bidding one's true valuation is a weakly dominant strategy.
+    \item Thus in a symmetric equilibrium, everyone's truth telling and your winning probability is unsurprisingly $G(\theta)$.
+    \item And in the event you win, you pay the second highest bid which is the second highest valuation\footnote{Remember when the individual submits a bid, he/she only knows his/her valuation and not others. Thus he/she has to guess what the second highest valuation might be based on the only piece of information he/she has, which is the CDF.} in the equilibrium: $$E\left[ \max \left(Y_1, r \right) | Y_1 \leq \theta \right]$$
+    \item Therefore we have again:
+    $$M^{II}(\theta) = \left[ rG(r) + \int_r^\theta y g(y) dy \right]$$
+\end{enumerate}
+
+\subsection{Remark on the second price auction}
+
+In the second price setting, there is an alternative interpretation:
+
+\begin{enumerate}
+
+    \item When the $(n-1)$ highest order statistic is \textbf{smaller} than $r$, then the "second highest" price in the model is effectively the reserve price (Assuming of course $\theta$ is as high as $r$), and that's the price you have to pay when win.
+    
+    \item But if the $(n-1)$ highest order statistic is \textbf{higher} than $r$, then it's just business as usual, i.e. $(n-1)$ highest order statistic is the effective second highest price.
+
+\end{enumerate}
+
+%\bibliography{sample-handout}
+%\bibliographystyle{plainnat}
+
+\end{document}
