@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX:
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{tufte-handout}
+
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{MWG 6.B.1}
+\author{Bloody Micro! by Impatient Researcher}
+%\date{}  % if the \date{} command is left out, the current date will be used
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% To highlight terms in equation
+\usepackage{xcolor}
+
+\newcommand{\highlight}[1]{%
+  \colorbox{yellow!80}{$\displaystyle#1$}}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+%\printclassoptions
+
+\section{Question}\label{sec:question}
+
+Refer to the textbook for the actual wordings of the question. The main idea is to show that if Independent Axiom (IA) is satisfied, then:
+
+$$L \succ L^{'} \iff \alpha L + (1 - \alpha) L^{''} \succ \alpha L^{'} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$$
+
+\noindent Where $L, L^{'}, L^{''} \in \mathcal{L}$.
+
+\section{Answer}\label{sec:answer}
+
+We will try to find a contradiction.
+
+\begin{enumerate}
+
+    \item Recall from the definition of IA:
+
+    $$L \succcurlyeq L^{'} \iff \alpha L + (1 - \alpha) L^{''} \succcurlyeq \alpha L^{'} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$$
+
+    \item Suppose $L \succ L^{'}$. Notice that $L \succ L^{'} \implies L \succcurlyeq L^{'}$, IA applies! Thus
+
+    $$\alpha L + (1 - \alpha) L^{''} \succcurlyeq \alpha L^{'} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$$
+
+    \item Then there are two distinct possibilities:
+    \begin{enumerate}
+      \item $\alpha L + (1 - \alpha) L^{''} \highlight{\sim} \alpha L^{'} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$
+      \item $\alpha L + (1 - \alpha) L^{''} \highlight{\succ} \alpha L^{'} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$
+    \end{enumerate}
+
+    \item Suppose it is the indifference case, then it must be the case that\footnote{By the defintion of $\sim$, $$A \sim B \implies A \succcurlyeq B \text{ and } B \succcurlyeq A$$}:
+    $$\alpha L^{'} + (1 - \alpha) L^{''} \succcurlyeq \alpha L^{} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$$
+
+    \item However, using IA again, this implies that $L^{'} \succcurlyeq L$. But this contradicts the claim that $L \succ L^{'}$. Thus it must be the case that $\alpha L + (1 - \alpha) L^{''} \highlight{\succ} \alpha L^{'} + (1 - \alpha) L^{''}, \forall \alpha \in (0,1)$. $\square$
+
+\end{enumerate}
+
+%\bibliography{sample-handout}
+%\bibliographystyle{plainnat}
+
+\end{document}
