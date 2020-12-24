@@ -1,0 +1,116 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX:
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{tufte-handout}
+
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{MWG 6.B.3}
+\author{Bloody Micro! by Impatient Researcher}
+\date{23 December 2020}  % if the \date{} command is left out, the current date will be used
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% To highlight terms in equation
+\usepackage{xcolor}
+
+\newcommand{\highlight}[1]{%
+  \colorbox{yellow!80}{$\displaystyle#1$}}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+%\printclassoptions
+
+\section{Question}\label{sec:question}
+
+Refer to the textbook for the actual wordings of the question. The main idea is to show that if:
+
+\begin{enumerate}
+  \item the set of outcome is finite
+  \item the individual's preference over the set of outcomes is \textit{rational}\footnote{That is preference is complete and transitive}
+  \item the independence axiom is satisfied
+\end{enumerate}
+
+\noindent Then you can always find the best and the worst lottery.
+
+\section{Answer}\label{sec:answer}
+
+To prove this, we construct the best and the worst lottery directly.
+
+\begin{enumerate}
+
+    \item Denote the set of outcomes by $C$ and the rational relation by $\succcurlyeq$.
+
+    \item As the set $C$ is finite, $\succcurlyeq$ is complete and transitive, there must exist at least one outome that is deemed to the best and and at least one deemed to be the worst.\footnote{$C$ being finite means there are just that many pairwise comparisons to be done, and rational preference implies that the individual can compare any pair of outcomes (completeness) and form a uncontradictory ordering of outcomes (transitivity).}
+
+    \item WLOG, let the number of outcomes be $N$ such that:
+    $$c_1 \succ c_2 \succ c_3 \succ \dots \succ c_N$$
+
+    \item Let $L$ be a generic lottery which takes the form:
+    $$L = \left( p_1 \circ c_1, p_2 \circ c_2, p_3 \circ c_3, \dots, p_N \circ c_N \right)$$
+
+    \item We can make the lottery $L$ more attractive\footnote{This is because except $c_2$ all other items are the same. And by IA, $L' \succ L \iff c_1 \succ c_2$} by replacing $c_2$ by $c_1$:
+    $$L' = \left( p_1 \circ c_1, p_2 \circ \highlight{c_1}, p_3 \circ c_3, \dots, p_N \circ c_N \right)$$
+
+    \item Following this logic, we can create an even better lottery by successively replacing $c_3, \dots, c_N$ by $c_1$. Clearly, there's no room for improvement when we have replaced all outcomes in $L$ with $c_1$ that is:
+    $$\overline{L} = \left( p_1 \circ c_1, p_2 \circ \highlight{c_1}, p_3 \circ \highlight{c_1}, \dots, p_N \circ \highlight{c_1} \right)$$
+
+    Implying that $\overline{L}$ constructed this way is indeed the best lottery.
+
+    \item Similarly one can construct the worst lottery $\underbar{L}$ by replacing all outcomes by $c_N$. $\square$
+
+\end{enumerate}
+
+%\bibliography{sample-handout}
+%\bibliographystyle{plainnat}
+
+\end{document}
