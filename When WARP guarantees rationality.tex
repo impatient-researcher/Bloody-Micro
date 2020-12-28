@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX:
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{tufte-handout}
+
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{When WARP guarantees rationality}
+\author{Bloody Micro! by Impatient Researcher}
+%\date{}  % if the \date{} command is left out, the current date will be used
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% To highlight terms in equation
+\usepackage{xcolor}
+
+\newcommand{\highlight}[1]{%
+  \colorbox{yellow!80}{$\displaystyle#1$}}
+
+% To use fancy curly alphabets in math equations
+\usepackage{mathrsfs}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+%\printclassoptions
+
+\section{Question}\label{sec:question}
+
+Show that if observations of what an agent chooses satisfy WARP, and the budget set $\mathscr{B}$ includes all subsets of $X$ up to 3 elements, then WARP guarantees rationality\footnote{It should be noted that rationality guarantees WARP but WARP \textbf{may not} imply rationality.}.
+
+\section{Refresher}\label{sec:refresher}
+
+Before diving into the formal definition, the idea is actually extremely simple. We want to see if the choice an individual makes is the same as what an individual with rational preferences would make.
+
+\bigskip
+
+\noindent \textbf{Rationality}: Given a choice structure $\left( \mathscr{B}, C(.) \right)$, if $C(B) = C^{*}(B, \succcurlyeq), \forall B \in \mathscr{B}$, then the preference relation $\succcurlyeq$ rationalises $C(.)$ relative to $\mathscr{B}$.
+
+\section{Answer}\label{sec:answer}
+
+\begin{enumerate}
+
+    \item Define the preference relation $\succcurlyeq$ as this\footnote{This is simply specifying the preference relation $\succcurlyeq$ (unobserved) with something we do observe $C(.)$. We do not assume $\succcurlyeq$ to be rational here.}:
+    $$x \in C(x,y) \iff x \succcurlyeq y$$
+    
+    \item WLOG\footnote{This is quite standard and it is innocuous in the sense that $x,y,z$ are simply placeholders and are not assigned to any specific choice.}, suppose $x \succcurlyeq y \succcurlyeq z$
+    
+    \item Then we know:
+    \begin{enumerate}
+        \item $x \in C(x,y) \; \because x \succcurlyeq y$
+        \item $y \in C(y,z) \; \because y \succcurlyeq z $
+    \end{enumerate}
+
+    \item Given WARP, is our $\succcurlyeq$ defined in this fashion rational? 
+    \begin{enumerate}
+        \item Completeness: yes because $C(.)$ is a choice function and by definition, it's never empty (you have got to choose something) and therefore $\succcurlyeq$ is complete.
+        \item Transitivity? Need more work to show.
+    \end{enumerate}
+
+    \item To show transitivity, suppose $z \in C(x, y, z)$. Then $\because$ WARP\footnote{WARP $\iff$ Condition $\alpha$ and $\beta$}:
+    \begin{enumerate}
+        \item $y \in C(y,z) \text{ and } z \in C(x, y, z) \implies y \in C(x, y, z) \; \because \text{Condition } \beta$
+        \item $x \in C(x,y) \text{ and } y \in C(x, y, z) \implies x \in C(x, y, z) \because \text{Condition } \beta$
+        \item $x \in C(x, y, z) \implies x \in C(x, z) \because \text{Condition } \alpha$
+    \end{enumerate}
+    
+    \item Then we have shown transitivity as: $$x \succcurlyeq y \text{ and } y \succcurlyeq z \implies x \succcurlyeq z$$
+
+    \item We then need to show that $C(.) = C^{*}(., \succcurlyeq)$. To prove equivalence, we have to prove both ways:
+    \begin{enumerate}
+    
+        \item $x \in C(B, \succcurlyeq) \implies x \in C(B) \; \forall B \in \mathscr{B}$
+        
+        \begin{enumerate}
+            
+            \item For a given $B \in \mathscr{B}$
+        
+            \item By the definition of $x \in C(B, \succcurlyeq)$, we know $x \succcurlyeq y, \; \forall y \in B$
+            
+            \item As $C(.)$ is never empty\footnote{Again it is a choice function, you have to got to choose something. It can be more than one item though.}, WLOG let $y^{*}$ be some item such that $y^{*} \in C(B)$. And of course $y^{*} \in B$.
+            
+            \item As $x \succcurlyeq y, \; \forall y \in B$, then we know that $x \succcurlyeq y^{*} \implies x \in C(\{x, y^{*}\})$
+            
+            \item By Condition $\beta$, we have $x \in C(\{x, y^{*}\}) \text{ and } y^{*} \in C(B) \implies x \in C(B)$. We have come a full circle. $\square$
+            
+        \end{enumerate}
+    
+        \item $x \in C(B) \implies x \in C(B, \succcurlyeq) \; \forall B \in \mathscr{B}$
+        
+        \begin{enumerate}
+            
+            \item For a given $B \in \mathscr{B}$
+            
+            \item $x \in C(B) \implies x \in C({x, z}), \; \forall z \in B, \; \because \text{Condition } \alpha$ 
+            
+            \item Given how our $\succcurlyeq$ is defined, then $x \in C({x, z}), \; \forall z \in B \implies x \succcurlyeq z, \; \forall z \in B$ 
+            
+            \item Which then of course implies that $x \in C(B, \succcurlyeq) \; \forall B \in \mathscr{B}$. $\square$ 
+            
+        \end{enumerate}
+            
+    \end{enumerate}
+
+\end{enumerate}
+
+%\bibliography{sample-handout}
+%\bibliographystyle{plainnat}
+
+\end{document}
