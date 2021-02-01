@@ -1,0 +1,131 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX:
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{tufte-handout}
+
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{Proposer optimal DA matching}
+\author{Bloody Micro! by Impatient Researcher}
+%\date{}  % if the \date{} command is left out, the current date will be used
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% To highlight terms in equation
+\usepackage{xcolor}
+
+\newcommand{\highlight}[1]{%
+  \colorbox{yellow!80}{$\displaystyle#1$}}
+
+% To use fancy curly alphabets in math equations
+\usepackage{mathrsfs}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+%\printclassoptions
+
+\section{Question}\label{sec:question}
+
+Consider a two-sided matching problem. To make it concrete, let's consider a marriage problem where there is a group of male proposing to a group of female.
+
+\bigskip
+
+\noindent Show that:
+\begin{enumerate}
+    \item Male-proposing DA results in a male-optimal outcome
+    \item Male-proposing DA results in a female-pessimal outcome
+\end{enumerate}
+
+\section{Answer}\label{sec:answer}
+
+\subsection{Part 1}\label{sec:answer-part-one}
+
+Our strategy is this - we first define what an optimality means for the male group and then we prove this by contradiction.
+
+\bigskip
+
+\noindent If a (stable) matching is male-optimal, then by definition there \textbf{cannot} exist another (stable) matching where a man is matched to another woman for whom he strictly prefers. This is a bit mouthful so let's summarise this criterion of optimality into: "no man is rejected by an achievable woman".\footnote{Succinctly: $w$ is achievable for some $m$ if there $\exists$ a stable $\mu$ such that $\mu(m) = w$}
+
+\bigskip 
+
+\noindent This notion of optimality is important in terms of how we structure the contradiction statement.
+
+\begin{enumerate}
+
+    \item Suppose not - the matching is not male-optimal, then by definition, there must exist at least one instance where a man is rejected by an achievable woman. 
+    
+    \item Consider the first man being rejected. Denote this man as $m$ and the woman rejecting him as $w$.\footnote{Our definition of achievable, again, is that there exists a stable matching $\mu'$ where $\mu'(m) = w$}
+    
+    \item At this very step, $w$ rejects $m$, she must be keeping some other man, call him $m'$.\footnote{Note this man may not be the ultimate match. And also as $\mu'(m) = w$ by supposition, $\mu'(m') \neq w$ as we cannot have $w$ matched to both $m$ and $m'$ simultaneously. Convention has it that we have $\mu'(m') = w'$}
+    
+    \item But supposition, this is the first step of the DA where a man is rejected by an achievable woman, then it must be the case that $m'$ has not been rejected by any woman. Also, $m'$ must first propose to the one he prefers the most\footnote{This is how male-proposing DA works.} - this implies that $w \succ_{m'} \mu'(m')$.
+    
+    \item Then by the fact that $w$ rejects $m$ for $m'$, it must be the case that $m' \succ_{w} \mu'(w)$. Thus $m'$ and $w$ form a blocking pair, implying that $\mu'(.)$ is not stable. $\square$ 
+\end{enumerate}
+
+\subsection{Part 2}\label{sec:answer-part-two}
+
+\begin{enumerate}
+
+    \item Suppose not - the matching is not female-pessimal, then there must exist a worse stable matching outcome, $\mu'(.)$ , for a at least one female.
+    
+    \item Pick one unfortunate woman who by supposition can have an even worse match. Denote her as $w$, then we have $\mu'(w) = m'$ and $m \succ_{w} m'$.
+    
+    \item We have shown previously that the male-proposing DA outcome is male-optimal, then we know for sure $w \succ_{m} w'$
+    
+    \item Again under $\mu'(.)$, $m$ and $w$ can form a blocking pair, contradicting the claim that $\mu'(.)$ is stable. $\square$
+\end{enumerate}
+
+%\bibliography{sample-handout}
+%\bibliographystyle{plainnat}
+
+\end{document}
